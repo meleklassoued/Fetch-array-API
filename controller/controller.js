@@ -1,4 +1,4 @@
-const { people } = require("../data");
+const people = require("../data");
 
 const getPeople = (req, res) => {
   res.status(200).json({ success: true, data: people });
@@ -21,15 +21,15 @@ const updatePerson = (req, res) => {
   const { name, age, gender } = req.body;
   const { id } = req.params;
 
-  const person = people.find((person) => person.id === id);
+  const person = people.find((person) => person.id == id);
   if (!person) {
     return res.status(404).json({ success: false, msg: `${id} is not here ` });
   }
   const newPeople = people.map((person) => {
     if (person.id === id) {
-      person.name = name;
-      person.age = age;
-      person.gender;
+      person.name = req.body.name;
+      person.age = req.body.age;
+      person.gender = req.body.gender;
     }
     return person;
   });
@@ -38,8 +38,8 @@ const updatePerson = (req, res) => {
 
 const deletePerson = (req, res) => {
   const { id } = req.params;
-  const person = people.find((person) => person.id === id);
-  if (person(!person)) {
+  const person = people.find((person) => person.id == id);
+  if ((!person)) {
     res.status(404).json({
       success: false,
       msg: `this person is not here with this id of ${id}`,
